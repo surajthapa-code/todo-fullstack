@@ -130,3 +130,9 @@ export async function loginUser(req, res) {
   }
 }
 
+export async function logOutUser(req, res) {
+  res.clearCookie("token");
+  res.status(200).json({
+    message: "log out sucess!",
+  });
+}
