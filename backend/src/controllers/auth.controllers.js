@@ -81,17 +81,17 @@ export async function registerUser(req, res) {
 export async function loginUser(req, res) {
   const { username, email, password } = req.body;
 
+  if (!username || !email || !password) {
+    return res.status(400).json({
+      message: " cannot accept empty field || all fields are required",
+    });
+  }
   const isUserRegistered = await User.findOne({
     $or: [{ username }, { email }],
   });
   if (!isUserRegistered) {
     return res.status(401).json({
       message: "User Not Found!",
-    });
-  }
-  if (!username || !email || !password) {
-    return res.status(400).json({
-      message: " cannot accept empty field || all fields are required",
     });
   }
   try {
