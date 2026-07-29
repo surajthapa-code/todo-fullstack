@@ -1,4 +1,4 @@
-import { User } from ".js";
+import { User } from "../models/user.models.js";
 import jwt from "jsonwebtoken";
 
 export async function authUser(req, res, next) {
@@ -18,7 +18,7 @@ export async function authUser(req, res, next) {
       });
     }
     const isExistingUser = await User.findOne({
-      id: isRealUser.id,
+      _id: isRealUser.id,
     });
     if (!isExistingUser) {
       console.log("user not found!");
@@ -26,7 +26,11 @@ export async function authUser(req, res, next) {
         message: "user not found!",
       });
     }
-    req.user.id = isExistingUser.id;
+    const user = {
+      userId: isExistingUser._id,
+    };
+
+    req.user = user;
     next();
   } catch (err) {
     console.log("middleware error", err);

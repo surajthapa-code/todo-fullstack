@@ -2,13 +2,12 @@ import { Todo } from "../models/todo.models.js";
 
 export async function showTodo(req, res) {
   try {
-    const userId = req.user.id;
+    const { userId } = req.user;
 
     const userTodos = await Todo.find({
-      userId,
+      user: userId, 
     }).limit(10);
     if (userTodos.length === 0) {
-      userTodos = [];
       return res.status(200).json({
         message: "you do not have any todo!",
         todos: userTodos,
@@ -28,6 +27,33 @@ export async function showTodo(req, res) {
   }
 }
 
-export async function createTodo(req,res) {
-    
+export async function createTodo(req, res) {
+  const { title, content } = req.body;
+  const { userId } = req.user;
+
+  if (!title || !content) {
+    console.log("empty fields while creating todo!");
+    return res.status(404).json({
+      message: "empty fields are not allowed!",
+    });
+  }
+  try {
+    const todoInstance = await Todo.create({
+      title: title,
+      content: content,
+      completed: false,
+      user: userId,
+    });
+
+    res.status(201).json({
+      message: "todo created",
+      todo: todoInstance,
+    });
+  } catch (err) {
+    (console.log("error while creating todo", err),
+      res.status(500).json({
+        message: "could not create todo might need to try again ",
+        err,
+      }));
+  }
 }
