@@ -5,7 +5,7 @@ export async function showTodo(req, res) {
     const { userId } = req.user;
 
     const userTodos = await Todo.find({
-      user: userId, 
+      user: userId,
     }).limit(10);
     if (userTodos.length === 0) {
       return res.status(200).json({
@@ -55,5 +55,30 @@ export async function createTodo(req, res) {
         message: "could not create todo might need to try again ",
         err,
       }));
+  }
+}
+export async function deleteTodo(req, res) {
+  const { id } = req.params;
+  const { userId } = req.user;
+
+  try {
+    const Deletedtodo = await Todo.findOneAndDelete({
+      $and: [{ _id: id }, { user: userId }],
+    });
+    if (!Deletedtodo) {
+      return res.status(201).json({
+        message: "could not delete!",
+      });
+    }
+    res.status(200).json({
+      message: "todo deleted sucess!",
+      Deletedtodo,
+    });
+  } catch (err) {
+    console.log("error while deleting todo!", err);
+    res.status(500).json({
+      message: "internal server error!",
+      err,
+    });
   }
 }
