@@ -26,6 +26,7 @@ export async function authUser(req, res, next) {
         message: "user not found!",
       });
     }
+    req.user.id = isExistingUser.id;
     next();
   } catch (err) {
     console.log("middleware error", err);
