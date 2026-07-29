@@ -9,5 +9,5 @@ import {
 export const authRouter = e.Router();
 
 authRouter.post("/register", registerUser);
-authRouter.get("/login", loginUser);
+authRouter.post("/login", loginUser);
 authRouter.get("/logout", logOutUser);
