@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import Todolist from "../components/Todolist";
+import CreateTodo from "../components/CreateTodo";
 
 const navLinkClass =
   "flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors";
@@ -23,10 +24,7 @@ function DashboardPage() {
 
           {/* Navigation */}
           <nav className="space-y-1">
-            <Link
-              to="/"
-              className={`${navLinkClass} bg-blue-50 text-blue-700`}
-            >
+            <Link to="/" className={`${navLinkClass} bg-blue-50 text-blue-700`}>
               <svg
                 className="h-5 w-5"
                 fill="none"
@@ -100,6 +98,7 @@ function DashboardPage() {
         </header>
 
         <section className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
+          <CreateTodo />
           <Todolist />
         </section>
       </main>
