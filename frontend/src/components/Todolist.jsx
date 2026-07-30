@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../store/axios";
+import TodoCard from "./TodoCard";
 
 function Todolist() {
   const [todos, setTodo] = useState([]);
@@ -23,8 +24,7 @@ function Todolist() {
         {todos.map((todo) => {
           return (
             <div key={todo._id}>
-              <p>{todo.title}</p>
-              <p>{todo.content}</p>
+              <TodoCard title={todo.title} content={todo.content} />
             </div>
           );
         })}
